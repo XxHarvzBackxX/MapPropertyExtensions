@@ -15,14 +15,23 @@ internal sealed class ModEntry : Mod
     public static ModData Data;
     public static OverlayProperty CurrentOverlay;
     public static int CurrentOverlayID = 0;
+    public static int WindowWidth = 0;
+    public static int WindowHeight = 0;
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
         helper.Events.Player.Warped += Player_Warped;
         helper.Events.Display.RenderingHud += Display_RenderingHud;
+        Game1.game1.Window.ClientSizeChanged += Window_ClientSizeChanged;
         ReadData();
         ValidateData();
+    }
+
+    private void Window_ClientSizeChanged(object sender, EventArgs e)
+    {
+        WindowWidth = (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferWidth : Game1.game1.Window.ClientBounds.Width);
+        WindowHeight = (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferHeight : Game1.game1.Window.ClientBounds.Height);
     }
 
     private void Display_RenderingHud(object sender, StardewModdingAPI.Events.RenderingHudEventArgs e)
@@ -44,9 +53,7 @@ internal sealed class ModEntry : Mod
                 }
             }
             Texture2D currentOverlayTexture = CurrentOverlay.ImageTextures[CurrentOverlayID];
-            Game1.spriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, 
-                (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferWidth : Game1.game1.Window.ClientBounds.Width),
-                (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferHeight : Game1.game1.Window.ClientBounds.Height)), Color.White);
+            Game1.spriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
         }
         else
         {
