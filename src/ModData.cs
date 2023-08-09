@@ -38,7 +38,7 @@ namespace MapPropertyExtensions
     {
         public int NumberOfFrames { get; set; } = 1;
         /// <summary>
-        /// in milliseconds
+        /// in ticks
         /// </summary>
         public int FrameDuration { get; set; } = 60;
         public OverlayAnimation(int numFrames, int frameDur)
