@@ -58,9 +58,7 @@ internal sealed class ModEntry : Mod
         else
         {
             Texture2D currentOverlayTexture = CurrentOverlay.ImageTextures[0];
-            Game1.spriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0,
-                (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferWidth : Game1.game1.Window.ClientBounds.Width),
-                (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferHeight : Game1.game1.Window.ClientBounds.Height)), Color.White);
+            Game1.spriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
         }
     }
 
