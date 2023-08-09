@@ -1,0 +1,12 @@
+{
+  "OverlayProperties": [
+    {
+      "ImagePath": "assets/Image",
+      "PropertyName": "MapTest",
+      "Animation": {
+        "NumberOfFrames": 4,
+        "FrameDuration": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+﻿{
+  "Name": "MapPropertyExtensions",
+  "Author": "XxHarvzBackxX and squiddonaut",
+  "Version": "1.0.0",
+  "Description": "Adds map image overlays to What's Left of Malha.",
+  "UniqueID": "squiddonaut.WhatsLeftofMalha.MPE",
+  "EntryDll": "MapPropertyExtensions.dll",
+  "MinimumApiVersion": "3.5.0"
+}

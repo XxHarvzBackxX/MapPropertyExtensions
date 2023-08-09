@@ -1,0 +1,8 @@
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\bin\Debug\net5.0\MapPropertyExtensions.deps.json
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\bin\Debug\net5.0\MapPropertyExtensions.dll
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\obj\Debug\net5.0\MapPropertyExtensions.csproj.AssemblyReference.cache
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\obj\Debug\net5.0\MapPropertyExtensions.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\obj\Debug\net5.0\MapPropertyExtensions.AssemblyInfoInputs.cache
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\obj\Debug\net5.0\MapPropertyExtensions.AssemblyInfo.cs
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\obj\Debug\net5.0\MapPropertyExtensions.csproj.CoreCompileInputs.cache
+C:\Users\harve\source\repos\MapPropertyExtensions\MapPropertyExtensions\obj\Debug\net5.0\MapPropertyExtensions.dll

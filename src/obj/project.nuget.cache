@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "xRRxro6i1INw23gY8qn0S0YGJxhZ58yt/og+zDJO6rbNYpIbXGYngDjGhTsB4B1zDx2WNe1PLev2ry9t1gGcTg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\harve\\source\\repos\\MapPropertyExtensions\\MapPropertyExtensions\\MapPropertyExtensions.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\harve\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\4.1.1\\pathoschild.stardew.modbuildconfig.4.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}
