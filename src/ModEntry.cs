@@ -21,11 +21,33 @@ internal sealed class ModEntry : Mod
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
+        helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
         helper.Events.Player.Warped += Player_Warped;
         helper.Events.Display.RenderingHud += Display_RenderingHud;
         Game1.game1.Window.ClientSizeChanged += Window_ClientSizeChanged;
         ReadData();
         ValidateData();
+    }
+
+    private void GameLoop_UpdateTicked(object sender, StardewModdingAPI.Events.UpdateTickedEventArgs e)
+    {
+        if (CurrentOverlay is null)
+            return;
+
+        if (CurrentOverlay.Animation.NumberOfFrames > 1)
+        {
+            if (e.Ticks % CurrentOverlay.Animation.FrameDuration == 0)
+            {
+                if (CurrentOverlayID + 1 == CurrentOverlay.Animation.NumberOfFrames)
+                {
+                    CurrentOverlayID = 0;
+                }
+                else
+                {
+                    CurrentOverlayID++;
+                }
+            }
+        }
     }
 
     private void Window_ClientSizeChanged(object sender, EventArgs e)
@@ -41,24 +63,13 @@ internal sealed class ModEntry : Mod
 
         if (CurrentOverlay.Animation.NumberOfFrames > 1)
         {
-            if (Game1.ticks % CurrentOverlay.Animation.FrameDuration == 0)
-            {
-                if (CurrentOverlayID + 1 == CurrentOverlay.Animation.NumberOfFrames)
-                {
-                    CurrentOverlayID = 0;
-                }
-                else
-                {
-                    CurrentOverlayID++;
-                }
-            }
             Texture2D currentOverlayTexture = CurrentOverlay.ImageTextures[CurrentOverlayID];
-            Game1.spriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
+            e.SpriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
         }
         else
         {
             Texture2D currentOverlayTexture = CurrentOverlay.ImageTextures[0];
-            Game1.spriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
+            e.SpriteBatch.Draw(currentOverlayTexture, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
         }
     }
 
