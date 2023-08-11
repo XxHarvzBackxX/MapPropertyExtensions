@@ -12,6 +12,7 @@ internal sealed class ModEntry : Mod
 {
     public const string DATA_PATH = "data.json";
     public const string OVERLAY_PROPERTY_TAG = "CustomMapOverlay";
+    public static ModConfig Config;
     public static ModData Data;
     public static OverlayProperty CurrentOverlay;
     public static int CurrentOverlayID = 0;
@@ -21,6 +22,7 @@ internal sealed class ModEntry : Mod
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
+        Config = helper.ReadConfig<ModConfig>();
         helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
         helper.Events.Player.Warped += Player_Warped;
         helper.Events.Display.RenderingHud += Display_RenderingHud;
@@ -31,7 +33,7 @@ internal sealed class ModEntry : Mod
 
     private void GameLoop_UpdateTicked(object sender, StardewModdingAPI.Events.UpdateTickedEventArgs e)
     {
-        if (CurrentOverlay is null)
+        if (CurrentOverlay is null || !Config.OverlaysEnabled)
             return;
 
         if (CurrentOverlay.Animation.NumberOfFrames > 1)
@@ -52,13 +54,16 @@ internal sealed class ModEntry : Mod
 
     private void Window_ClientSizeChanged(object sender, EventArgs e)
     {
+        if (!Config.OverlaysEnabled)
+            return;
+
         WindowWidth = (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferWidth : Game1.game1.Window.ClientBounds.Width);
         WindowHeight = (Game1.graphics.IsFullScreen ? Game1.graphics.PreferredBackBufferHeight : Game1.game1.Window.ClientBounds.Height);
     }
 
     private void Display_RenderingHud(object sender, StardewModdingAPI.Events.RenderingHudEventArgs e)
     {
-        if (CurrentOverlay is null)
+        if (CurrentOverlay is null || !Config.OverlaysEnabled)
             return;
 
         if (CurrentOverlay.Animation.NumberOfFrames > 1)
@@ -75,6 +80,9 @@ internal sealed class ModEntry : Mod
 
     private void Player_Warped(object sender, StardewModdingAPI.Events.WarpedEventArgs e)
     {
+        if (!Config.OverlaysEnabled)
+            return;
+
         foreach (OverlayProperty property in Data.OverlayProperties)
         {
             if (e.NewLocation.getMapProperty(OVERLAY_PROPERTY_TAG) == property.PropertyName) // if correct map
@@ -98,7 +106,7 @@ internal sealed class ModEntry : Mod
         {
             Monitor.Log("No \'data.json\' file found (or file is invalid)! Generating generic data file...", LogLevel.Error);
             md = new ModData(new List<OverlayProperty> { new OverlayProperty("MapTest", "assets/Image", new OverlayAnimation(1, 60)) }); // generate a demo moddata file
-            Helper.Data.WriteJsonFile(DATA_PATH, md); // save file
+            // Helper.Data.WriteJsonFile(DATA_PATH, md); // save file // (commented as it would just overwrite any files that are 'invalid')
         }
         Data = md;
     }
@@ -135,5 +143,12 @@ internal sealed class ModEntry : Mod
                 Monitor.Log($"Invalid NumberOfFrames when loading image asset '{property.ImagePath}'.", LogLevel.Error);
             }
         }
+    }
+    public class ModConfig
+    {
+        /// <summary>
+        /// Are image-map overlays enabled?
+        /// </summary>
+        public bool OverlaysEnabled { get; set; } = true;
     }
 }
