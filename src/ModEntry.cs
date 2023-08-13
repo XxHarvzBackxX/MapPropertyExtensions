@@ -23,6 +23,7 @@ internal sealed class ModEntry : Mod
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
+        AdjustBoundsToFullScreen();
         FullScreenCheck = Game1.graphics.IsFullScreen;
         Config = helper.ReadConfig<ModConfig>();
         helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
