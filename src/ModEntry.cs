@@ -16,12 +16,14 @@ internal sealed class ModEntry : Mod
     public static ModData Data;
     public static OverlayProperty CurrentOverlay;
     public static int CurrentOverlayID = 0;
+    public static bool FullScreenCheck;
     public static int WindowWidth = 0;
     public static int WindowHeight = 0;
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
+        FullScreenCheck = Game1.graphics.IsFullScreen;
         Config = helper.ReadConfig<ModConfig>();
         helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
         helper.Events.Player.Warped += Player_Warped;
@@ -33,7 +35,10 @@ internal sealed class ModEntry : Mod
 
     private void GameLoop_UpdateTicked(object sender, StardewModdingAPI.Events.UpdateTickedEventArgs e)
     {
-        if (CurrentOverlay is null || !Config.OverlaysEnabled)
+        if (!Config.OverlaysEnabled)
+            return;
+        CheckIfFullScreen();
+        if (CurrentOverlay is null)
             return;
 
         if (CurrentOverlay.Animation.NumberOfFrames > 1)
@@ -52,7 +57,8 @@ internal sealed class ModEntry : Mod
         }
     }
 
-    private void Window_ClientSizeChanged(object sender, EventArgs e)
+    private void Window_ClientSizeChanged(object sender, EventArgs e) => AdjustBoundsToFullScreen();
+    private void AdjustBoundsToFullScreen()
     {
         if (!Config.OverlaysEnabled)
             return;
@@ -96,6 +102,12 @@ internal sealed class ModEntry : Mod
                 CurrentOverlay = null;
             }
         }
+    }
+    public void CheckIfFullScreen()
+    {
+        if (FullScreenCheck != Game1.graphics.IsFullScreen)
+            AdjustBoundsToFullScreen();
+        FullScreenCheck = Game1.graphics.IsFullScreen;
     }
 
     public void ReadData()
