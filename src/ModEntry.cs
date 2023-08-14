@@ -19,11 +19,11 @@ internal sealed class ModEntry : Mod
     public static bool FullScreenCheck;
     public static int WindowWidth = 0;
     public static int WindowHeight = 0;
+    public static bool InitialCheck = false;
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
-        AdjustBoundsToFullScreen();
         FullScreenCheck = Game1.graphics.IsFullScreen;
         Config = helper.ReadConfig<ModConfig>();
         helper.Events.GameLoop.UpdateTicked += GameLoop_UpdateTicked;
@@ -55,6 +55,11 @@ internal sealed class ModEntry : Mod
                     CurrentOverlayID++;
                 }
             }
+        }
+        if (!InitialCheck)
+        {
+            AdjustBoundsToFullScreen();
+            InitialCheck = true;
         }
     }
 
